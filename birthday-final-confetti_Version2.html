@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎉 Birthday Surprise 🎂</title>
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2583/2583344.png">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+body {
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+
+#backgroundCode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    background: #000;
+}
+
+.code-rain {
+    position: absolute;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    opacity: 0.15;
+    white-space: pre;
+    line-height: 1.3;
+}
+
+#scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 998;
+    animation: scanlines 8s linear infinite;
+}
+
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(10px); }
+}
+
+#hackedScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+}
+
+.hack-content {
+    text-align: center;
+    z-index: 100;
+    width: 100%;
+    max-width: 800px;
+}
+
+.lock-icon {
+    font-size: 100px;
+    margin-bottom: 20px;
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-15px); }
+    75% { transform: translateX(15px); }
+}
+
+.hack-title {
+    font-size: 48px;
+    margin-bottom: 30px;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+    0%, 100% { color: #ff0000; text-shadow: 0 0 20px #ff0000, 0 0 30px #ff3333; }
+    50% { color: #ff3333; text-shadow: 0 0 40px #ff0000, 0 0 60px #ff3333; }
+}
+
+.hack-text {
+    font-size: 24px;
+    margin: 15px 0;
+    letter-spacing: 2px;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.hack-code {
+    font-size: 13px;
+    margin-top: 40px;
+    text-align: left;
+    background: rgba(0, 255, 0, 0.08);
+    padding: 25px;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 10px rgba(0, 255, 0, 0.1);
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.code-line {
+    margin: 7px 0;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.timer-display {
+    font-size: 140px;
+    margin: 50px 0 30px 0;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000;
+    animation: timerPulse 1s infinite;
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 15px;
+}
+
+@keyframes timerPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        text-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000;
+    }
+    50% { 
+        transform: scale(1.2); 
+        text-shadow: 0 0 60px #ff0000, 0 0 120px #ff0000;
+    }
+}
+
+.warning-text {
+    font-size: 22px;
+    color: #ffff00;
+    margin-top: 40px;
+    animation: blink-warning 0.8s infinite;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px #ffff00;
+}
+
+@keyframes blink-warning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+#birthday-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+    z-index: 1001;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 40px 20px;
+}
+
+#birthday-message.show {
+    display: flex;
+}
+
+#birthday-message h1 {
+    font-size: 70px;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px #ff1493, 0 0 40px #00ff00;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+#birthday-message p {
+    font-size: 26px;
+    margin: 15px 0;
+    color: #fff;
+    animation: slideIn 0.8s ease-out forwards;
+    opacity: 0;
+    max-width: 100%;
+}
+
+#birthday-message p:nth-child(2) { animation-delay: 0.5s; }
+#birthday-message p:nth-child(3) { animation-delay: 1s; }
+#birthday-message p:nth-child(4) { animation-delay: 1.5s; }
+#birthday-message p:nth-child(5) { animation-delay: 2s; }
+#birthday-message p:nth-child(6) { animation-delay: 2.5s; }
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typing-text {
+    color: #ff1493;
+    border-right: 3px solid #00ff00;
+    padding-right: 5px;
+}
+
+.heart {
+    position: fixed;
+    font-size: 40px;
+    z-index: 2;
+    animation: heartFloat 4s ease-out forwards;
+}
+
+@keyframes heartFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-400px) translateX(150px) rotate(360deg) scale(0);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 255, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .lock-icon {
+        font-size: 60px;
+        margin-bottom: 15px;
+    }
+
+    .hack-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .hack-text {
+        font-size: 16px;
+        padding: 0 10px;
+        margin: 10px 0;
+    }
+
+    .timer-display {
+        font-size: 70px;
+        letter-spacing: 5px;
+        margin: 20px 0;
+    }
+
+    .hack-code {
+        font-size: 10px;
+        width: 95%;
+        max-height: 150px;
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .code-line {
+        margin: 4px 0;
+    }
+
+    .warning-text {
+        font-size: 16px;
+        margin-top: 20px;
+        letter-spacing: 2px;
+    }
+
+    #birthday-message {
+        padding: 30px 20px;
+    }
+
+    #birthday-message h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #birthday-message p {
+        font-size: 18px;
+        margin: 12px 0;
+    }
+
+    .hack-content {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .lock-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .hack-title {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .hack-text {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+
+    .timer-display {
+        font-size: 50px;
+        letter-spacing: 3px;
+        margin: 15px 0;
+    }
+
+    .hack-code {
+        font-size: 9px;
+        width: 98%;
+        max-height: 120px;
+        padding: 12px;
+    }
+
+    .code-line {
+        margin: 3px 0;
+    }
+
+    .warning-text {
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    #birthday-message h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+
+    #birthday-message p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgmusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div id="backgroundCode"></div>
+<div id="scanlines"></div>
+
+<div id="hackedScreen">
+    <div class="hack-content">
+        <div class="lock-icon">🔒</div>
+        <div class="hack-title">SYSTEM LOCKED!</div>
+        <div class="hack-text">⚠️ UNAUTHORIZED ACCESS DETECTED ⚠️</div>
+        <div class="hack-text">Your phone has been LOCKED by someone who loves you...</div>
+        
+        <div class="timer-display" id="timer">30</div>
+        
+        <div class="hack-text">Unlock in <span id="timerText">30</span> seconds...</div>
+        
+        <div class="hack-code">
+            <div class="code-line">>> SYSTEM INTRUSION INITIATED</div>
+            <div class="code-line">>> SCANNING LOVE FREQUENCY...</div>
+            <div class="code-line">>> HEART_DETECTION.exe running...</div>
+            <div class="code-line">>> LOVE LEVEL: 99.9%</div>
+            <div class="code-line">>> ACCESSING: /memories/birthday/</div>
+            <div class="code-line">>> LOADING: BIRTHDAY_SURPRISE.zip</div>
+            <div class="code-line">>> DECRYPTING: REASONS_TO_LOVE.dat</div>
+            <div class="code-line">>> BIRTHDAY_MODE.exe ACTIVATED</div>
+            <div class="code-line">>> HAPPINESS_INJECTION: MAXIMUM</div>
+            <div class="code-line">>> STATUS: [████████████████░░] 99%</div>
+            <div class="code-line">>> UNLOCK_TIME: 30 SECONDS</div>
+        </div>
+        
+        <div class="warning-text">🚨 SYSTEM COMPLETELY LOCKED 🚨</div>
+    </div>
+</div>
+
+<div id="birthday-message">
+    <h1>🎉 HAPPY BIRTHDAY ❤️</h1>
+    <p>Dear <span class="typing-text"></span></p>
+    <p>You are the most beautiful soul I know.</p>
+    <p>Every day with you feels like a blessing! 🌟</p>
+    <p>May your day be filled with endless joy, laughter and love! 🎂</p>
+    <p>You deserve the world and so much more! 💎</p>
+    <p>Forever Yours ❤️</p>
+</div>
+
+<!-- CONFETTI LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+<script>
+// PLAY MUSIC AUTOMATICALLY
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("bgmusic").play().catch(function(error) {
+        console.log("Autoplay prevented. Click anywhere to start music.");
+    });
+});
+
+document.addEventListener('click', function() {
+    document.getElementById("bgmusic").play();
+});
+
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'K' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'R') ||
+        (e.metaKey && e.key === 'R') ||
+        e.key === 'Escape' ||
+        (e.ctrlKey && e.key === 'W') ||
+        (e.metaKey && e.key === 'W') ||
+        (e.altKey && e.key === 'F4')
+    ) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+});
+
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() {
+    window.history.pushState(null, null, window.location.href);
+});
+
+window.addEventListener('beforeunload', function(e) {
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+});
+
+let timeRemaining = 30;
+const HER_NAME = "Divya Sharma";
+
+function generateCodeRain() {
+    const codeChars = [
+        "01010101", "11110000", "while(true)", "sys.access", "LOCKED",
+        "PASSWORD", "0xDEADBEEF", "0xFFFFFFFF", "HACK", "ROOT", "ADMIN",
+        "ACCESS_DENIED", "db_load()", "decrypt()", "encrypt()", "socket.connect()",
+        "firewall.disable()", "kernel.load()", "memory.read()", "network.hack()"
+    ];
+    
+    const container = document.getElementById('backgroundCode');
+    
+    for (let i = 0; i < 60; i++) {
+        const codeRain = document.createElement('div');
+        codeRain.className = 'code-rain';
+        
+        let text = '';
+        for (let j = 0; j < 8; j++) {
+            text += codeChars[Math.floor(Math.random() * codeChars.length)] + '\n';
+        }
+        
+        codeRain.textContent = text;
+        codeRain.style.left = Math.random() * 100 + '%';
+        codeRain.style.top = (Math.random() * -100) + '%';
+        
+        const duration = 15 + Math.random() * 20;
+        const delay = Math.random() * 5;
+        
+        codeRain.style.animation = `rainFall ${duration}s linear ${delay}s infinite`;
+        
+        container.appendChild(codeRain);
+    }
+}
+
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes rainFall {
+        0% {
+            transform: translateY(-100px);
+            opacity: 0.15;
+        }
+        10% {
+            opacity: 0.2;
+        }
+        90% {
+            opacity: 0.15;
+        }
+        100% {
+            transform: translateY(${window.innerHeight + 100}px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+window.addEventListener('DOMContentLoaded', function() {
+    generateCodeRain();
+    startLockTimer();
+});
+
+function startLockTimer() {
+    const timerDisplay = document.getElementById('timer');
+    const timerText = document.getElementById('timerText');
+    
+    const interval = setInterval(() => {
+        timeRemaining--;
+        timerDisplay.textContent = String(timeRemaining).padStart(2, '0');
+        timerText.textContent = timeRemaining;
+        
+        if (timeRemaining <= 0) {
+            clearInterval(interval);
+            unlockSystem();
+        }
+    }, 1000);
+}
+
+function unlockSystem() {
+    document.getElementById('hackedScreen').style.display = 'none';
+    document.getElementById('birthday-message').classList.add('show');
+    
+    // CONFETTI EXPLOSION! 🎉
+    confetti({
+        particleCount: 300,
+        spread: 180,
+        origin: { y: 0.6 }
+    });
+    
+    typeText(HER_NAME);
+    launchHearts();
+}
+
+function typeText(text) {
+    const element = document.querySelector(".typing-text");
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, 100);
+        }
+    }
+    type();
+}
+
+function launchHearts() {
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = window.innerHeight + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 4000);
+        }, i * 100);
+    }
+}
+
+document.addEventListener('click', function(e) {
+    if (timeRemaining > 0 && e.target.tagName === 'A') {
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
+
+</body>
+</html>
