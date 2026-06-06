@@ -244,6 +244,26 @@ body {
     padding-right: 5px;
 }
 
+    .slideshow-container{
+    margin:20px auto;
+    text-align:center;
+}
+
+#slideShow{
+    width:85%;
+    max-width:350px;
+    border-radius:20px;
+    border:4px solid white;
+    box-shadow:0 0 30px #ff1493;
+    transition:all 0.8s ease;
+}
+
+.gallery-title{
+    color:white;
+    margin-top:15px;
+    text-shadow:0 0 15px #ff1493;
+}
+    
 .heart {
     position: fixed;
     font-size: 40px;
@@ -428,10 +448,11 @@ body {
 <div id="birthday-message">
     <h1>🎉 Happy Birthday My Love ❤️</h1>
 
-    <img src="myphoto.jpg" alt="Divya"
-         width="300"
-         style="border-radius:20px; margin:20px;">
+   <div class="slideshow-container">
+    <img id="slideShow" src="images/photo1.jpg" alt="Birthday Photo">
+</div>
 
+<h2 class="gallery-title">📸 Beautiful Memories ❤️</h2>
     <p>Dear <span class="typing-text"></span>, ❤️</p>
 
     <p>You are the most beautiful part of my life. 🌹</p>
@@ -451,6 +472,20 @@ body {
     <p>Happy Birthday once again, my favorite person. 💖</p>
 
     <p>No matter where life takes us, my heart will always belong to you. ❤️</p>
+
+    <button onclick="window.open('birthday.pdf')"
+style="
+padding:15px 30px;
+font-size:20px;
+border:none;
+border-radius:15px;
+background:#ff1493;
+color:white;
+cursor:pointer;
+margin-top:20px;">
+🎁 Open My Special Gift 🎁
+</button>
+    
 </div>
    
     <!-- CONFETTI LIBRARY -->
@@ -589,8 +624,9 @@ function unlockSystem() {
         origin: { y: 0.6 }
     });
     
-    typeText(HER_NAME);
-    launchHearts();
+  typeText(HER_NAME);
+launchHearts();
+startSlideshow();
 }
 
 function typeText(text) {
@@ -622,6 +658,38 @@ function launchHearts() {
     }
 }
 
+    const photos = [
+    "images/photo1.jpg",
+    "images/photo2.jpg",
+    "images/photo3.jpg",
+    "images/photo4.jpg",
+    "images/photo5.jpg",
+    "images/photo6.jpg"
+];
+
+let currentPhoto = 0;
+
+function startSlideshow() {
+    setInterval(() => {
+
+        currentPhoto++;
+
+        if(currentPhoto >= photos.length){
+            currentPhoto = 0;
+        }
+
+        const img = document.getElementById("slideShow");
+
+        img.style.opacity = 0;
+
+        setTimeout(() => {
+            img.src = photos[currentPhoto];
+            img.style.opacity = 1;
+        }, 400);
+
+    }, 3000);
+}
+    
 document.addEventListener('click', function(e) {
     if (timeRemaining > 0 && e.target.tagName === 'A') {
         e.preventDefault();
