@@ -392,9 +392,6 @@ body {
     <source src="humnava_mere_short_30s.mp3" type="audio/mpeg">
 </audio>
 <!-- BACKGROUND MUSIC -->
-<audio id="bgmusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
 
 <div id="backgroundCode"></div>
 <div id="scanlines"></div>
@@ -429,18 +426,34 @@ body {
 </div>
 
 <div id="birthday-message">
-    <h1>🎉 HAPPY BIRTHDAY ❤️</h1>
-    <p>Dear <span class="typing-text"></span></p>
-    <p>You are the most beautiful soul I know.</p>
-    <p>Every day with you feels like a blessing! 🌟</p>
-    <p>May your day be filled with endless joy, laughter and love! 🎂</p>
-    <p>You deserve the world and so much more! 💎</p>
+    <h1>🎉 Happy Birthday My Love ❤️</h1>
+
+    <img src="divya.jpg" alt="Divya"
+         width="300"
+         style="border-radius:20px; margin:20px;">
+
+    <p>Dear <span class="typing-text"></span>, ❤️</p>
+
+    <p>You are the most beautiful part of my life. 🌹</p>
+
+    <p>Your smile brightens my darkest days and fills my heart with happiness. ✨</p>
+
+    <p>Every moment spent with you becomes a precious memory that I cherish forever. 💕</p>
+
+    <p>Thank you for being my happiness, my strength, and my biggest blessing. 🥰</p>
+
+    <p>On your special day, I wish you endless joy, success, good health, and all the love in the world. 🎂🎁</p>
+
+    <p>No matter where life takes us, you will always hold a special place in my heart. ❤️</p>
+
+    <p>May your birthday be as beautiful, kind, and wonderful as you are. 🌸</p>
+
+    <p>Happy Birthday once again, my favorite person. 💖</p>
+
     <p>Forever Yours ❤️</p>
 </div>
-
     <img src="divya.jpg" alt="Divya" width="300" style="border-radius:20px;">
-    <img src="your-photo.jpg" alt="Birthday Girl" width="300">
-<!-- CONFETTI LIBRARY -->
+    <!-- CONFETTI LIBRARY -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
 <script>
@@ -452,7 +465,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('click', function() {
-    document.getElementById("bgmusic").play();
+   document.getElementById("bgMusic").play();
 });
 
 document.addEventListener('contextmenu', function(e) {
