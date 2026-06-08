@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Divya ❤️</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif;overflow:hidden}
+#lock{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#0f0}
+#timer{font-size:90px;color:red}
+#main{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#20002c,#cbb4d4);overflow:auto;text-align:center;padding:20px}
+#slide{max-width:350px;width:90%;border-radius:20px;box-shadow:0 0 20px #fff}
+button{padding:15px 25px;border:none;border-radius:12px;font-size:18px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<video id="music" autoplay loop style="display:none">
+<source src="humnava.mp4" type="video/mp4">
+</video>
+
+<div id="lock">
+<h1>🔒 SYSTEM LOCKED</h1>
+<div id="timer">30</div>
+<p>Accessing Birthday Surprise...</p>
+</div>
+
+<div id="main">
+<h1>🎉 Happy Birthday Divya ❤️</h1>
+<img id="slide" src="photo1.jpg">
+<p>May your day be filled with happiness, smiles and beautiful memories. ❤️</p>
+<button onclick="window.open('https://1drv.ms/f/c/469aeb59d0c9c26f/IgCFaE0MyUICQ5nyJHVX2CxpAcpaB00dFHitCfQf9-VZRjs?e=f5WKvs')">🎁 Open My Special Gift</button>
+</div>
+
+<script>
+let t=30;
+const timer=document.getElementById("timer");
+const photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg"];
+let i=0;
+
+setInterval(()=>{
+ if(document.getElementById("main").style.display==="block"){
+   i=(i+1)%photos.length;
+   document.getElementById("slide").src=photos[i];
+ }
+},3000);
+
+const c=setInterval(()=>{
+ t--;
+ timer.textContent=t;
+ if(t<=0){
+   clearInterval(c);
+   document.getElementById("lock").style.display="none";
+   document.getElementById("main").style.display="block";
+ }
+},1000);
+</script>
+</body>
+</html>
